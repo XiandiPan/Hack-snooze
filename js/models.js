@@ -2,6 +2,7 @@
 
 const BASE_URL = "https://hack-or-snooze-v3.herokuapp.com";
 
+
 /******************************************************************************
  * Story: a single story in the system
  */
@@ -25,7 +26,7 @@ class Story {
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return BASE_URL;
   }
 }
 
@@ -73,8 +74,26 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( /* user, newStory */) {
+  async addStory( user, newStory ) {
     // UNIMPLEMENTED: complete this function!
+    
+
+    let response = await axios({
+      method:'POST',
+      url: `${BASE_URL}/stories`,
+      data:{
+         token: ,
+       story: {
+        title
+        author
+        url
+      }
+
+    }
+  })
+  console.log(response);
+  //const newStory = new Story;
+
   }
 }
 
