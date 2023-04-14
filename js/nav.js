@@ -19,7 +19,7 @@ $body.on("click", "#nav-all", navAllStories);
 
 function navLoginClick(evt) {
   console.debug("navLoginClick", evt);
-  evt.preventDefault();
+   evt.preventDefault();
   hidePageComponents();
   $loginForm.show();
   $signupForm.show();
@@ -36,9 +36,19 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+//todo change the name relate to "nav"
+function navStorySubmitForm() {
+  hidePageComponents();
+   $addStoryForm.show();
+  $allStoriesList.show();
 
-function showStorySubmitForm() {
-  $("#add-story-form").show();
 };
 
-$("#submit-story-form").on("click", showStorySubmitForm);
+$("#submit-story-form").on("click", navStorySubmitForm);
+
+function navFavoriteClickButton(){
+  hidePageComponents();
+  putFavoriteOnPage();
+}
+$addFavStory.on("click",navFavoriteClickButton)
+

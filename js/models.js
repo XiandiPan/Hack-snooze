@@ -74,14 +74,16 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, {title, author, url}) {
+  async addStory(user, { title, author, url }) {
+    console.log(url);
     const response = await axios({
-      method:"POST",
+      method: "POST",
       url: `${BASE_URL}/stories`,
-      data:{
+      data: {
         token: user.loginToken,
-        story: {title, author, url}
+        story: { title, author, url }
       }
+
     });
 
     const story = new Story(response.data.story);
@@ -103,13 +105,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
@@ -206,4 +208,37 @@ class User {
       return null;
     }
   }
+  /**adding favorite story to the favorite  */
+  async addFavoriteStory(story) {
+    const token = this.loginToken;
+    this.favorites.unshift(story);
+    const response = await axios({
+      method: "POST",
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+      data: {
+        token,
+      }
+    });
+    return response;
+  }
+
+
+   async deleteFavoriteStory(story) {
+    const token = this.loginToken;
+    if (this.favorites.includes(story)) {
+      this.favorites.splice(this.favorites.indexOf(story), 1);
+    }
+    const response = await axios({
+      method: "DELETE",
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+      data: {
+        token,
+      }
+    });
+    console.log(response);
+    return response;
+  }
+
 }
+
+

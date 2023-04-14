@@ -37,6 +37,7 @@ function generateStoryMarkup(story) {
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
+
 function putStoriesOnPage() {
   console.debug("putStoriesOnPage");
 
@@ -51,13 +52,34 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+
+
+/** add story to story list */
 async function clickAddStory(evt) {
-  console.debug("clickAddStory");
   evt.preventDefault();
   const title = $("#story-title").val();
   const author = $("#story-author").val();
-  const url = $("story-url").val();
-  await StoryList.addStory(user, {title, author, url});
+  const url = $("#story-url").val();
+  const story = await storyList.addStory(currentUser, { title, author, url });
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
+  $addStoryForm.hide();
+  $addStoryForm.trigger("reset");
+
 }
 
-$("#submit-story").on("submit", clickAddStory)
+$addStoryForm.on("submit", clickAddStory);
+
+
+function putFavoriteOnPage() {
+  console.debug("putFavoriteOnPage");
+
+  // $favStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $favStoryList.append($story);
+  }
+  $favStoryList.show();
+}
