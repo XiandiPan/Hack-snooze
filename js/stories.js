@@ -25,6 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+      <button type="button" class="story-favorite">&#9733;</button>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -72,9 +73,7 @@ $addStoryForm.on("submit", clickAddStory);
 
 
 function putFavoriteOnPage() {
-  console.debug("putFavoriteOnPage");
-
-  // $favStoriesList.empty();
+  $favStoryList.empty();
 
   // loop through all of our stories and generate HTML for them
   for (let story of currentUser.favorites) {
@@ -83,3 +82,10 @@ function putFavoriteOnPage() {
   }
   $favStoryList.show();
 }
+
+function addStoryToFavorites(story) {
+  console.log(story);
+  currentUser.addFavoriteStory(story);
+}
+
+$(".story-favorite").on("click", addStoryToFavorites)
